@@ -1,4 +1,9 @@
-# 🤖 AURIX — Next-Generation AI Assistant
+<img width="1031" height="316" alt="image" src="https://github.com/user-attachments/assets/457256fd-00d8-4682-8456-1a78cef15212" />
+
+
+
+
+# 🤖 AURIX — Next-Generation AI Assistant(linuxsujith)
 
 > *"Your Intelligence, Amplified"*
 
@@ -23,7 +28,8 @@ python run.py
 # 4. Open UI
 # → http://localhost:8000
 ```
-
+or 
+download and deploy in vercal.com
 ---
 
 ## 🏗️ Architecture
