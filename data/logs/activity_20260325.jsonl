@@ -1,0 +1,22 @@
+{"timestamp": "2026-03-25T08:08:27.519777", "category": "connection", "description": "WebSocket client connected", "level": "info", "user": "system"}
+{"timestamp": "2026-03-25T08:12:07.464274", "category": "connection", "description": "WebSocket client disconnected", "level": "info", "user": "system"}
+{"timestamp": "2026-03-25T08:32:02.267556", "category": "connection", "description": "WebSocket client connected", "level": "info", "user": "system"}
+{"timestamp": "2026-03-25T08:33:39.379855", "category": "connection", "description": "WebSocket client disconnected", "level": "info", "user": "system"}
+{"timestamp": "2026-03-25T08:33:58.288932", "category": "connection", "description": "WebSocket client connected", "level": "info", "user": "system"}
+{"timestamp": "2026-03-25T08:35:23.027731", "category": "connection", "description": "WebSocket client disconnected", "level": "info", "user": "system"}
+{"timestamp": "2026-03-25T08:35:25.249023", "category": "face_register", "description": "New face registered: owner", "level": "info", "user": "system"}
+{"timestamp": "2026-03-25T08:35:28.893769", "category": "face_auth", "description": "Face verify fallback - allowed entry", "level": "info", "user": "system"}
+{"timestamp": "2026-03-25T08:35:30.986296", "category": "connection", "description": "WebSocket client connected", "level": "info", "user": "system"}
+{"timestamp": "2026-03-25T08:35:40.823176", "category": "connection", "description": "WebSocket client disconnected", "level": "info", "user": "system"}
+{"timestamp": "2026-03-25T08:53:50.157217", "category": "face_auth", "description": "Face verify fallback - allowed entry", "level": "info", "user": "system"}
+{"timestamp": "2026-03-25T08:53:52.211748", "category": "connection", "description": "WebSocket client connected", "level": "info", "user": "system"}
+{"timestamp": "2026-03-25T08:58:17.441039", "category": "connection", "description": "WebSocket client disconnected", "level": "info", "user": "system"}
+{"timestamp": "2026-03-25T08:58:25.489117", "category": "face_auth", "description": "Face verify fallback - allowed entry", "level": "info", "user": "system"}
+{"timestamp": "2026-03-25T08:58:27.590488", "category": "connection", "description": "WebSocket client connected", "level": "info", "user": "system"}
+{"timestamp": "2026-03-25T09:03:11.007746", "category": "face_auth", "description": "Face verify fallback - allowed entry", "level": "info", "user": "system"}
+{"timestamp": "2026-03-25T09:03:13.110761", "category": "connection", "description": "WebSocket client connected", "level": "info", "user": "system"}
+{"timestamp": "2026-03-25T09:04:45.578339", "category": "connection", "description": "WebSocket client disconnected", "level": "info", "user": "system"}
+{"timestamp": "2026-03-25T09:04:46.111477", "category": "connection", "description": "WebSocket client disconnected", "level": "info", "user": "system"}
+{"timestamp": "2026-03-25T09:07:30.819222", "category": "face_auth", "description": "Face verify fallback - allowed entry", "level": "info", "user": "system"}
+{"timestamp": "2026-03-25T09:07:32.920451", "category": "connection", "description": "WebSocket client connected", "level": "info", "user": "system"}
+{"timestamp": "2026-03-25T09:10:02.432896", "category": "connection", "description": "WebSocket client disconnected", "level": "info", "user": "system"}

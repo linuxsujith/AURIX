@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AURIX — JARVIS Interface</title>
+    <meta name="description" content="AURIX: Real-time AI assistant with voice control and face authentication" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/static/css/aurix.css" />
+</head>
+<body>
+    <!-- Three.js Background -->
+    <canvas id="bg-canvas"></canvas>
+    <div class="scanlines"></div>
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!-- SCREEN 1: FACE LOGIN / SIGN-UP             -->
+    <!-- ═══════════════════════════════════════════ -->
+    <div id="loginScreen" class="screen active">
+        <div class="login-container">
+            <!-- Arc Reactor Logo -->
+            <div class="arc-reactor-login">
+                <div class="arc-ring ring-1"></div>
+                <div class="arc-ring ring-2"></div>
+                <div class="arc-ring ring-3"></div>
+                <div class="arc-core"></div>
+            </div>
+
+            <h1 class="login-title">AURIX</h1>
+            <p class="login-subtitle">BIOMETRIC AUTHENTICATION REQUIRED</p>
+
+            <!-- Webcam Feed -->
+            <div class="face-scan-container" id="faceScanContainer">
+                <video id="loginVideo" autoplay muted playsinline></video>
+                <canvas id="faceOverlay"></canvas>
+                <div class="scan-line-anim"></div>
+                <div class="face-frame">
+                    <div class="frame-corner tl"></div>
+                    <div class="frame-corner tr"></div>
+                    <div class="frame-corner bl"></div>
+                    <div class="frame-corner br"></div>
+                </div>
+                <div class="face-status" id="faceStatus">INITIALIZING CAMERA...</div>
+            </div>
+
+            <!-- Login Actions -->
+            <div class="login-actions">
+                <button class="login-btn primary" id="btnFaceLogin">
+                    <span class="btn-icon">👁️</span> AUTHENTICATE FACE
+                </button>
+                <button class="login-btn secondary" id="btnRegisterFace">
+                    <span class="btn-icon">➕</span> REGISTER NEW FACE
+                </button>
+                <button class="login-btn ghost" id="btnSkipLogin">
+                    SKIP → ENTER AS GUEST
+                </button>
+            </div>
+
+            <div class="login-status" id="loginStatusMsg"></div>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!-- SCREEN 2: JARVIS MAIN HUD                  -->
+    <!-- ═══════════════════════════════════════════ -->
+    <div id="mainHUD" class="screen">
+
+        <!-- Central Arc Reactor -->
+        <div class="arc-reactor-center" id="arcReactor">
+            <div class="arc-outer-ring"></div>
+            <div class="arc-mid-ring"></div>
+            <div class="arc-inner-ring"></div>
+            <div class="arc-core-main">
+                <div class="arc-pulse"></div>
+            </div>
+            <!-- Voice Wave Ring -->
+            <canvas id="voiceRingCanvas"></canvas>
+        </div>
+
+        <!-- Top HUD Bar -->
+        <header class="jarvis-top-bar">
+            <div class="jtb-left">
+                <div class="jarvis-logo">
+                    <span class="j-letter">A</span><span class="j-text">URIX</span>
+                </div>
+                <div class="j-status" id="jStatus">
+                    <div class="j-status-dot"></div>
+                    <span id="jStatusText">ONLINE</span>
+                </div>
+            </div>
+            <div class="jtb-center">
+                <div class="voice-status-bar" id="voiceStatusBar">
+                    <div class="vsb-icon" id="vsbIcon">🎤</div>
+                    <div class="vsb-text" id="vsbText">VOICE ACTIVE — LISTENING</div>
+                    <div class="vsb-level" id="vsbLevel"></div>
+                </div>
+            </div>
+            <div class="jtb-right">
+                <div class="j-clock" id="jClock">00:00:00</div>
+                <div class="j-date" id="jDate">--</div>
+                <button class="j-logout-btn" id="btnLogout" title="Lock">🔒</button>
+            </div>
+        </header>
+
+        <!-- Circular HUD Elements (Iron Man style) -->
+        <div class="hud-ring-container">
+            <!-- Left Ring: System Stats -->
+            <div class="hud-holoring left-ring" id="leftRing">
+                <svg viewBox="0 0 300 300" class="ring-svg">
+                    <circle class="ring-track" cx="150" cy="150" r="130" />
+                    <circle class="ring-progress" id="cpuRing" cx="150" cy="150" r="130" />
+                </svg>
+                <div class="ring-data">
+                    <div class="ring-label">CPU</div>
+                    <div class="ring-value" id="cpuVal">0%</div>
+                </div>
+                <div class="ring-sub-stats">
+                    <div class="sub-stat">
+                        <span class="ss-label">RAM</span>
+                        <span class="ss-value" id="ramVal">0%</span>
+                    </div>
+                    <div class="sub-stat">
+                        <span class="ss-label">DISK</span>
+                        <span class="ss-value" id="diskVal">0%</span>
+                    </div>
+                    <div class="sub-stat">
+                        <span class="ss-label">NET ↑</span>
+                        <span class="ss-value" id="netUpVal">0</span>
+                    </div>
+                    <div class="sub-stat">
+                        <span class="ss-label">NET ↓</span>
+                        <span class="ss-value" id="netDownVal">0</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Ring: AI Status -->
+            <div class="hud-holoring right-ring" id="rightRing">
+                <svg viewBox="0 0 300 300" class="ring-svg">
+                    <circle class="ring-track" cx="150" cy="150" r="130" />
+                    <circle class="ring-progress ring-ai" id="aiRing" cx="150" cy="150" r="130" />
+                </svg>
+                <div class="ring-data">
+                    <div class="ring-label">AI CORE</div>
+                    <div class="ring-value ring-ai-val" id="aiVal">READY</div>
+                </div>
+                <div class="ring-sub-stats">
+                    <div class="sub-stat">
+                        <span class="ss-label">MEMORIES</span>
+                        <span class="ss-value" id="memCountVal">0</span>
+                    </div>
+                    <div class="sub-stat">
+                        <span class="ss-label">SESSION</span>
+                        <span class="ss-value" id="sessionTime">00:00</span>
+                    </div>
+                    <div class="sub-stat">
+                        <span class="ss-label">MODEL</span>
+                        <span class="ss-value" id="modelVal">GPT</span>
+                    </div>
+                    <div class="sub-stat">
+                        <span class="ss-label">VOICE</span>
+                        <span class="ss-value" id="voiceModeVal">ON</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom: AI Response + Transcript Console -->
+        <div class="jarvis-console" id="jarvisConsole">
+            <div class="jc-header">
+                <div class="jc-tab active" id="tabTranscript">TRANSCRIPT</div>
+                <div class="jc-tab" id="tabActions">ACTIONS</div>
+                <button class="jc-clear" id="jcClear">CLEAR</button>
+            </div>
+            <div class="jc-output" id="jcOutput">
+                <div class="jc-msg ai-msg">
+                    <span class="jc-prefix">[AURIX]</span>
+                    <span class="jc-text">All systems online. Voice recognition active. Speak to begin.</span>
+                </div>
+            </div>
+
+            <!-- Voice Transcript (what the user is saying live) -->
+            <div class="voice-transcript" id="voiceTranscript">
+                <div class="vt-indicator">
+                    <span class="vt-dot"></span>
+                    <span class="vt-dot"></span>
+                    <span class="vt-dot"></span>
+                </div>
+                <span class="vt-text" id="liveTranscript">Say something...</span>
+            </div>
+
+            <!-- Manual input fallback -->
+            <div class="jc-input-row">
+                <input type="text" id="manualInput" class="jc-input" placeholder="Or type a command..." autocomplete="off" />
+                <button class="jc-send" id="manualSend">➤</button>
+            </div>
+        </div>
+
+        <!-- Floating Quick Command Buttons -->
+        <div class="quick-cmd-ribbon" id="quickCmdRibbon">
+            <button class="qcmd" data-cmd="What time is it?">🕐 TIME</button>
+            <button class="qcmd" data-cmd="Take a screenshot">📸 SCREENSHOT</button>
+            <button class="qcmd" data-cmd="Show system status">📊 STATUS</button>
+            <button class="qcmd" data-cmd="Open GitHub">🐙 GITHUB</button>
+            <button class="qcmd" data-cmd="Open YouTube">▶️ YOUTUBE</button>
+            <button class="qcmd" data-cmd="Open terminal">💻 TERMINAL</button>
+            <button class="qcmd" data-cmd="Open ChatGPT">🤖 CHATGPT</button>
+            <button class="qcmd" id="btnMiniMode" data-cmd="">🔽 MINI</button>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!-- MINI MODE FLOATING WIDGET                   -->
+    <!-- ═══════════════════════════════════════════ -->
+    <div id="miniMode" class="mini-mode-widget">
+        <div class="mini-drag-handle">
+            <div class="mini-header">
+                <div class="mini-arc-reactor">
+                    <div class="mini-arc-ring"></div>
+                    <div class="mini-arc-core"></div>
+                </div>
+                <div class="mini-title">AURIX</div>
+                <button class="mini-expand-btn" id="miniExpandBtn" title="Expand to full HUD">⬆</button>
+            </div>
+        </div>
+        <div class="mini-body">
+            <div class="mini-status">
+                <div class="mini-mic-indicator">
+                    <span class="mini-mic-dot"></span>
+                    <span id="miniStatusText">LISTENING</span>
+                </div>
+            </div>
+            <div class="mini-live-text" id="miniLiveText">Say something...</div>
+            <div class="mini-last-response" id="miniLastResponse">Ready for commands</div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="/static/js/three-scene.js"></script>
+    <script src="/static/js/hud.js"></script>
+    <script src="/static/js/voice.js"></script>
+    <script src="/static/js/websocket.js"></script>
+    <script src="/static/js/app.js"></script>
+</body>
+</html>
